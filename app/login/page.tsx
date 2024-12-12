@@ -15,7 +15,7 @@ const Login = () => {
 
     if (username === "admin" && password === "password") {
       setFormhaserror(false);
-      router.push("/dashboard");
+      router.push("/dashboard/devices");
     } else {
       setFormhaserror(true);
     }

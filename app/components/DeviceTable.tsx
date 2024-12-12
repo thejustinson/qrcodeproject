@@ -2,14 +2,22 @@ import {
   RiDeleteBin5Line,
   RiExternalLinkLine,
   RiPencilLine,
+  RiMore2Line
 } from "@remixicon/react";
-import React from "react";
+import React, { useState } from "react";
 import data from "@/app/assets/dummy.json";
 
 const DeviceTable = () => {
+  const [expandedRow, setExpandedRow] = useState<number | null>(null);
+
+  const toggleRowExpand = (index: number) => {
+    setExpandedRow(expandedRow === index ? null : index);
+  };
+
   return (
     <div className="p-4">
-      <div className="overflow-hidden rounded-lg shadow-sm max-h-[calc(100vh-252px)] overflow-y-scroll">
+      {/* Desktop Table */}
+      <div className="hidden lg:block overflow-hidden rounded-lg shadow-sm max-h-[calc(100vh-252px)] overflow-y-auto">
         <table className="w-full border-collapse bg-white text-sm">
           <thead className="bg-neutral-900 text-white text-left">
             <tr>
@@ -64,6 +72,85 @@ const DeviceTable = () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile List View */}
+      <div className="lg:hidden space-y-4">
+        {data.map((device, index) => (
+          <div 
+            key={index} 
+            className="bg-white rounded-lg shadow-sm border border-neutral-200"
+          >
+            <div 
+              className="flex justify-between items-center p-4 cursor-pointer"
+              onClick={() => toggleRowExpand(index)}
+            >
+              <div className="flex items-center space-x-3">
+                <div className="w-5 h-5 bg-neutral-200 border border-neutral-100 rounded-md"></div>
+                <div>
+                  <h3 className="font-semibold text-neutral-900">{device.Name}</h3>
+                  <p className="text-xs text-neutral-500">{device.ENG_NO}</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RiMore2Line size={20} className="text-neutral-500" />
+              </div>
+            </div>
+
+            {/* Expandable Details */}
+            {expandedRow === index && (
+              <div className="p-4 pt-0 space-y-2 text-sm text-neutral-600">
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <p className="text-xs text-neutral-500">Category</p>
+                    <p>{device.S_Sub_Catg_Name || device.Category}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-neutral-500">Asset Code</p>
+                    <p>{device["Asset Code"]}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-neutral-500">Model</p>
+                    <p>{device["Model"]}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-neutral-500">Location</p>
+                    <p>{device.LOCATION}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-neutral-500">Room</p>
+                    <p>{device.Room}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-neutral-500">Attached To</p>
+                    <p>{device.ATTACH}</p>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex justify-between items-center pt-2 mt-2 border-t border-neutral-200">
+                  <div className="flex space-x-3">
+                    <a
+                      href={`/device/${device.ENG_NO}`}
+                      className="text-neutral-500 hover:text-blue-600 flex items-center space-x-1"
+                    >
+                      <RiExternalLinkLine size={18} />
+                      <span className="text-xs">View</span>
+                    </a>
+                    <button className="text-neutral-500 hover:text-blue-600 flex items-center space-x-1">
+                      <RiPencilLine size={18} />
+                      <span className="text-xs">Edit</span>
+                    </button>
+                    <button className="text-neutral-500 hover:text-red-600 flex items-center space-x-1">
+                      <RiDeleteBin5Line size={18} />
+                      <span className="text-xs">Delete</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );

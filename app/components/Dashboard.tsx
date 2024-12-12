@@ -9,7 +9,7 @@ interface DashboardOptions{
 
 const Dashboard = ({isOpen, setIsOpen}: DashboardOptions) => {
   return (
-    <div className='w-full h-screen overflow-y-hidden'>
+    <div className='w-full h-screen lg:overflow-y-hidden'>
         <DashboardTop isOpen={isOpen} setIsOpen={setIsOpen}/>
         <DashboardBody/>
     </div>
