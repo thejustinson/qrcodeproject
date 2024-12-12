@@ -109,7 +109,7 @@ const DashboardTop: React.FC<DashboardTopProps> = ({
       {/* User Profile and Notifications */}
       <div className="flex items-center gap-4">
         {/* Notification Icon */}
-        <button
+        {/* <button
           className="
             relative p-2 rounded-full 
             hover:bg-neutral-100 
@@ -131,7 +131,7 @@ const DashboardTop: React.FC<DashboardTopProps> = ({
           >
             3
           </span>
-        </button>
+        </button> */}
 
         {/* User Profile Dropdown */}
         <div className="relative" ref={dropdownRef}>
